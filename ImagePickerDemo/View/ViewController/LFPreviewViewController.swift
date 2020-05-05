@@ -111,22 +111,10 @@ extension LFPreviewViewController: UICollectionViewDataSource,UICollectionViewDe
         let cell = collectionView.lf_dequeueReusable(LFPreviewCell.self, for: indexPath)
         cell.delegate = self
         cell.isCheck = vm.dataSource[indexPath.item].isCheck
-        if let image = vm.dataSource[indexPath.item].image {
-            cell.contImgView.image = image
-        } else {
-            vm.requestImage(at: indexPath) { requestedImage in
-                cell.contImgView.image = requestedImage
-            }
+        vm.requestImage(at: indexPath) { requestedImage in
+            cell.contImgView.image = requestedImage
         }
         return cell
-    }
-    
-    //清除未选图片的内存，防止内存暴增
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let item = vm.dataSource[indexPath.item]
-        if !item.isCheck {
-            item.image = nil
-        }
     }
 }
 

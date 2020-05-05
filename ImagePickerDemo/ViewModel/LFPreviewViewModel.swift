@@ -35,34 +35,14 @@ class LFPreviewViewModel {
         guard let assets = LFPHAssetsTool.shared.assets else { return }
         if indexPath.item >= assets.count { return }
         let asset = assets[indexPath.item]
-//        let targetSize = calculateTargetsizeForAsset(asset)
         let targetSize = CGSize(width: asset.pixelWidth, height: asset.pixelHeight)
         imageManager.requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: imageOptions) { (image, info) in
             if let image = image {
-                self.dataSource[indexPath.item].image = image
                 DispatchQueue.main.async {
                     finishCallBack(image)
                 }
             }
         }
-    }
-    
-    func calculateTargetsizeForAsset(_ asset: PHAsset)-> CGSize {
-        let physicalWidth = CGFloat(asset.pixelWidth)/kScreenScale
-        let physicalHeight = CGFloat(asset.pixelHeight)/kScreenScale
-
-        var targetSize: CGSize!
-        let albumSize = CGSize(width: kScreenWidth, height: kScreenHeight - selfNavigationH)
-        if physicalHeight >= physicalWidth {
-            let scale = physicalHeight/albumSize.height
-            let width = albumSize.width/scale
-            targetSize = CGSize(width: width, height: physicalHeight)
-        } else {
-            let scale = physicalWidth/albumSize.width
-            let height = albumSize.height/scale
-            targetSize = CGSize(width: physicalWidth, height: height)
-        }
-        return targetSize
     }
 }
 
