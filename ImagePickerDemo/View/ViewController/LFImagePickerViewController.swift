@@ -139,6 +139,7 @@ extension LFImagePickerViewController: UIImagePickerControllerDelegate,UINavigat
                     self.collectionView.insertItems(at: [indexPath])
                 }, completion: nil)
             })
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         } else {
             // can not get image from camera
             picker.dismiss(animated: true, completion: nil)
@@ -205,7 +206,9 @@ extension LFImagePickerViewController {
     
     @objc private func selectedImagesCountChanged(notification: Notification) {
         guard let selectedImagesCount = notification.object as? Int else { return }
-        nextStepBtn.changeUI(with: selectedImagesCount)
+        DispatchQueue.main.async {
+            self.nextStepBtn.changeUI(with: selectedImagesCount)
+        }
     }
     
     @objc private func cancelAction() {

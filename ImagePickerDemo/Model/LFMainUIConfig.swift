@@ -11,23 +11,42 @@ import UIKit
 
 class LFMainUIConfig {
     
-    var itemSpacing: CGFloat = 3
-    var itemCountEveryRow: Int = 4
+    enum SelectionStyle {
+        case single
+        case multiple
+    }
+    
+    //以下的item指的是：图片列表中每一个cell
+    var itemSpacing: CGFloat = 3 {
+        didSet {
+            calculateItemLength()
+        }
+    }
+    var itemCountEveryRow: Int = 4 {
+        didSet {
+            calculateItemLength()
+        }
+    }
+    var itemLength: CGFloat! {
+        didSet {
+            calculateTargetSize()
+        }
+    }
+    //最多可以选择的数量,仅在`selectionStyle`为true时生效
     var maxCountOfSelected: Int = 3
-    
-    var itemLength: CGFloat!
-    
     //因屏幕分辨率不同，在从相册获取图片时，需要设置不同的分辨率
     var targetSize: CGSize!
     
-    init(itemSpacing: CGFloat = 3, itemCountEveryRow: Int = 4) {
-        self.itemSpacing = itemSpacing
-        self.itemCountEveryRow = itemCountEveryRow
-        setValueForOtherProperties()
+    init() {
+        calculateItemLength()
+        calculateTargetSize()
     }
     
-    func setValueForOtherProperties() {
+    func calculateItemLength() {
         itemLength = (KScreenWidth - itemSpacing * CGFloat(itemCountEveryRow + 1))/CGFloat(itemCountEveryRow)
+    }
+    
+    func calculateTargetSize() {
         targetSize = CGSize(width: itemLength * kScreenScale, height: itemLength * kScreenScale)
     }
 }

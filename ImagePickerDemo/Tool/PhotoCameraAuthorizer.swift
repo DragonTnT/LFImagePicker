@@ -71,7 +71,8 @@ class PhotoCameraAuthorizer {
     
     static private func alertTips(autType: AuthenticationType) {
         let title = "无法打开你的\(autType.rawValue)"
-        let message = "有车来没有获得相册的使用权限，请在设置中开启「\(autType.rawValue)」"
+        let appName = Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) ?? "App"
+        let message = "\(appName)没有获得相册的使用权限，请在设置中开启「\(autType.rawValue)」"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
         let alertAction = UIAlertAction(title: "开启权限", style: .default) { (_) in

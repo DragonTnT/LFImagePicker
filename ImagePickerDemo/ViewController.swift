@@ -46,7 +46,7 @@ extension ViewController: LFImagePickerViewControllerDelegate {
     }
     
     func didSelectImages(on pickerController: LFImagePickerViewController, with images: [UIImage]) {
-
+        
     }
 }
 
