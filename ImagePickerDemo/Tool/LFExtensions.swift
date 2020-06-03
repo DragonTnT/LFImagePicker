@@ -44,6 +44,8 @@ extension PHImageRequestOptions {
             resizeMode = .fast
             deliveryMode = .highQualityFormat
             isSynchronous = false
+            //high quality image may need to download from iCloud
+            isNetworkAccessAllowed = true
         } else {
             resizeMode = .fast
             deliveryMode = .fastFormat
