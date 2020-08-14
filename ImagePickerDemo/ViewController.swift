@@ -11,16 +11,14 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        
         let tapGes = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        imageView.addGestureRecognizer(tapGes)
-        view.addSubview(imageView)
+        self.view.addGestureRecognizer(tapGes)
     }
+ 
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: self.view.bounds)

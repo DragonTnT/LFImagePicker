@@ -12,9 +12,11 @@ import UIKit
 class LFImageInfo {
     var image: UIImage?
     var isCheck: Bool
+    var index: Int
     
-    init(image: UIImage? = nil, isCheck: Bool = false) {
+    init(image: UIImage? = nil, isCheck: Bool = false, index: Int = 0) {
         self.image = image
         self.isCheck = isCheck
+        self.index = index
     }
 }

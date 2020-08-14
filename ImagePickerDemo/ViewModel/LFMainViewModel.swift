@@ -35,7 +35,15 @@ class LFMainViewModel {
     
     let selfNavigationH = navigationH
     
-    let imageOptions = PHImageRequestOptions(quality: .low)
+    let imageOptions: PHImageRequestOptions = {
+        let it = PHImageRequestOptions()
+        it.resizeMode = .fast
+        it.deliveryMode = .highQualityFormat
+        it.isSynchronous = true
+        //high quality image may need to download from iCloud
+        it.isNetworkAccessAllowed = true
+        return it
+    }()
     
     lazy var imageManager: PHImageManager = {
         let it = PHImageManager.default()
@@ -143,15 +151,14 @@ extension LFMainViewModel {
         return imageInfos
     }
         
-    //TODO: 这里可以考虑将图片的请求过程变为并行，  目前为了保证顺序，图片的请求是串行。
-    //可以考虑增加Index,变为并行。
     func getAssetThumbnail(assets: [PHAsset]) -> [LFImageInfo] {
         var imageInfoArray: [LFImageInfo] = []
-        for asset in assets {
+        for (index,asset) in assets.enumerated() {
             imageManager.requestImage(for: asset, targetSize: mainUIConfig.targetSize, contentMode: .aspectFit, options: imageOptions, resultHandler: {(image, info)->Void in
-                imageInfoArray.append(LFImageInfo(image: image!))
+                imageInfoArray.append(LFImageInfo(image: image!, index: index))
             })
         }
+        imageInfoArray.sort { $0.index < $1.index }
         return imageInfoArray
     }
     
